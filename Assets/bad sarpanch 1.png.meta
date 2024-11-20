@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b3847e5df0280754c9f3e31f438f73b5
+guid: f1a4f35bd891f9d4a8f66e2966f5e874
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2043078576562090142
-    second: bad sarpanch_0
+      213: 4630628016244297702
+    second: bad sarpanch 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bad sarpanch_0
+      name: bad sarpanch 1_0
       rect:
         serializedVersion: 2
         x: 66
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e90b13404297a5c10800000000000000
-      internalID: 2043078576562090142
+      spriteID: 6ef863b85ab434040800000000000000
+      internalID: 4630628016244297702
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      bad sarpanch_0: 2043078576562090142
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

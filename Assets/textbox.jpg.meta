@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b3847e5df0280754c9f3e31f438f73b5
+guid: b9896a0901cb33440bfcfeb3a5ebc557
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2043078576562090142
-    second: bad sarpanch_0
+      213: -8673756312040429146
+    second: textbox_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bad sarpanch_0
+      name: textbox_0
       rect:
         serializedVersion: 2
-        x: 66
-        y: 1
-        width: 158
-        height: 482
+        x: 0
+        y: 0
+        width: 938
+        height: 266
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e90b13404297a5c10800000000000000
-      internalID: 2043078576562090142
+      spriteID: 6a92788f690a0a780800000000000000
+      internalID: -8673756312040429146
       vertices: []
       indices: 
       edges: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      bad sarpanch_0: 2043078576562090142
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
