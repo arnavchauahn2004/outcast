@@ -207,6 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 26179434}
+  - component: {fileID: 26179435}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -229,6 +230,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &26179435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26179432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9f4aeba50788884282db4ba10f5d434, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goodsarpanch: {fileID: 0}
+  badsarpanch: {fileID: 0}
+  secretary: {fileID: 0}
+  minister: {fileID: 0}
+  corruptionMeter: {fileID: 0}
+  moraleMeter: {fileID: 0}
+  politicalStandingMeter: {fileID: 0}
+  dialogueText: {fileID: 0}
+  choicePanel: {fileID: 0}
+  choiceButtons: []
+  dialogues: []
 --- !u!1 &80362538
 GameObject:
   m_ObjectHideFlags: 0
