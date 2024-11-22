@@ -31,7 +31,7 @@ public class DialogueManager : MonoBehaviour
         // Example dialogues
         dialogues = new string[]
         {
-            "Good Sarpanch: Minister Sahab, our village needs help!",
+            "Good sarpanch (Satyaraj Yadav): minister Sahab - minister Sahab,We are from a small village Surajmukhi in the east. The road condition there is terrible and nobody can safely commute using the main road. Children can’t even go to school due to this. Monsoon is near if nothing is done the entire road will be full of water and cause so much problems to our community. We may be a poor village but if you help us our community will be truthful and loyal to you.",
             "Secretary: The Minister would like some time to think about it.",
             "Minister: I have a decision to make, but I need some time.",
             "Bad Sarpanch: Minister Sahab, let’s work together for mutual benefit."
@@ -40,7 +40,7 @@ public class DialogueManager : MonoBehaviour
         // Choices for specific dialogue points (text visible to player)
         choices = new string[][]
         {
-            new string[] { "I will surely do something about it.", "I need to review the budget.", "I will see what can be done." },
+            new string[] { "I understand your pain it’s a big issue I will surely do something about it.", " I will need to review the current budget and infrastructure plans to see how we can incorporate this request.", "we have many previous pending commitments I will se what can be done." },
             new string[] { "Order an immediate investigation", "Choose according to your will", "Ignore" },
             new string[] { "Directly Decline", "Leave it on the table and go" }
         };
