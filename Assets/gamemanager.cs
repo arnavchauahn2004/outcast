@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DialogueManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public Image goodsarpanch, badsarpanch, secretary, minister;
     public Slider corruptionMeter, moraleMeter, politicalStandingMeter;
@@ -11,7 +11,6 @@ public class DialogueManager : MonoBehaviour
     public Button[] choiceButtons;
 
     private int currentDialogueIndex = 0;
-    private string[] ministerChoices = { "Good Choice", "Neutral Choice", "Bad Choice" };
     private int ministerChoice = -1; // -1 means no choice yet
 
     [System.Serializable]
@@ -19,6 +18,8 @@ public class DialogueManager : MonoBehaviour
     {
         public string character;
         public string text;
+        public bool hasChoices;
+        public string[] choices;
     }
 
     public Dialogue[] dialogues;
@@ -57,21 +58,26 @@ public class DialogueManager : MonoBehaviour
                 break;
             case "minister":
                 minister.enabled = true;
-                ShowChoices();
-                return; // Wait for player's choice
+                if (currentDialogue.hasChoices)
+                {
+                    ShowChoices(currentDialogue.choices);
+                    return; // Wait for player's choice
+                }
+                break;
         }
 
         currentDialogueIndex++;
     }
 
-    private void ShowChoices()
+    private void ShowChoices(string[] choices)
     {
         choicePanel.SetActive(true);
 
-        for (int i = 0; i < choiceButtons.Length; i++)
+        for (int i = 0; i < choices.Length; i++)
         {
             int index = i;
-            choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = ministerChoices[i];
+            choiceButtons[i].gameObject.SetActive(true);
+            choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = choices[i];
             choiceButtons[i].onClick.RemoveAllListeners();
             choiceButtons[i].onClick.AddListener(() => HandleChoice(index));
         }
@@ -102,24 +108,5 @@ public class DialogueManager : MonoBehaviour
 
         currentDialogueIndex++;
         ShowNextDialogue();
-    }
-
-    private void ShowFollowUpDialogues()
-    {
-        // Show follow-up dialogues for badsarpanch and secretary based on minister's choice
-        if (ministerChoice == 0) // Good choice
-        {
-            // Show good follow-up dialogues
-            dialogues[5] = new Dialogue { character = "badsarpanch", text = "Bad Sarpanch's follow-up dialogue (Good choice)" };
-            dialogues[6] = new Dialogue { character = "secretary", text = "Secretary's follow-up dialogue (Good choice)" };
-        }
-        else if (ministerChoice == 2) // Bad choice
-        {
-            // Show bad follow-up dialogues
-            dialogues[5] = new Dialogue { character = "badsarpanch", text = "Bad Sarpanch's follow-up dialogue (Bad choice)" };
-            dialogues[6] = new Dialogue { character = "secretary", text = "Secretary's follow-up dialogue (Bad choice)" };
-        }
-
-        ShowNextDialogue(); // Proceed to the next dialogue
     }
 }
