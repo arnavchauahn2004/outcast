@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     private int currentDialogueIndex = 0;
     private int ministerChoice = -1; // -1 means no choice yet
+    private bool isDialogueDisplayed = false; // Tracks if dialogue text has been shown
 
     [System.Serializable]
     public struct Dialogue
@@ -73,36 +74,48 @@ public class GameManager : MonoBehaviour
         secretary.enabled = false;
         minister.enabled = false;
 
-        // Handle choices
+        if (!isDialogueDisplayed)
+        {
+            // Show the dialogue text
+            dialogueText.text = currentDialogue.text;
+            isDialogueDisplayed = true; // Mark the dialogue as displayed
+
+            // Show character if applicable
+            switch (currentDialogue.character)
+            {
+                case "goodsarpanch":
+                    goodsarpanch.enabled = true;
+                    break;
+                case "badsarpanch":
+                    badsarpanch.enabled = true;
+                    break;
+                case "secretary":
+                    secretary.enabled = true;
+                    break;
+                case "minister":
+                    minister.enabled = true;
+                    break;
+            }
+
+            UpdateNavigationButtons(); // Update navigation buttons
+            return; // Exit the method to wait for the next click
+        }
+
+        // If dialogue has been displayed, handle choices (if any)
         if (currentDialogue.hasChoices)
         {
-            dialogueText.text = ""; // No text shown before the choice
             ShowChoices(currentDialogue.choices);
-            UpdateNavigationButtons(); // Update buttons after choices are displayed
-            return;
         }
-
-        // Set dialogue text and character visibility if no choices
-        dialogueText.text = currentDialogue.text;
-
-        switch (currentDialogue.character)
+        else
         {
-            case "goodsarpanch":
-                goodsarpanch.enabled = true;
-                break;
-            case "badsarpanch":
-                badsarpanch.enabled = true;
-                break;
-            case "secretary":
-                secretary.enabled = true;
-                break;
-            case "minister":
-                minister.enabled = true;
-                break;
+            // No choices; move to the next dialogue
+            currentDialogueIndex++;
         }
 
-        currentDialogueIndex++;
-        UpdateNavigationButtons(); // Update buttons after dialogue change
+        // Reset dialogue display state for the next dialogue
+        isDialogueDisplayed = false;
+
+        UpdateNavigationButtons(); // Update navigation buttons after processing
     }
 
     public void ShowPreviousDialogue()

@@ -224,7 +224,7 @@ Transform:
   m_GameObject: {fileID: 26179432}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 707.6315, y: 235.26389, z: -2.7107654}
+  m_LocalPosition: {x: 480, y: 255, z: -2.7107654}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -266,7 +266,8 @@ MonoBehaviour:
       so much problems to our community. We may be a poor village but if you help
       us our community will be truthful and loyal to you"
     hasChoices: 0
-    choices: []
+    choices:
+    - 
   - character: minister
     text: 
     hasChoices: 1
@@ -1055,14 +1056,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2afb018ecb5a6df46853e97dfff31c54, type: 2}
+  m_sharedMaterial: {fileID: -3085587681905510772, guid: 2afb018ecb5a6df46853e97dfff31c54, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278240767
+    rgba: 4278255611
   m_fontColor: {r: 0.98475003, g: 1, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1087,7 +1088,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 8
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2902,8 +2903,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -295.29398, y: 39.75}
-  m_SizeDelta: {x: -622.738, y: -253.2}
+  m_AnchoredPosition: {x: -299.05, y: 43.436707}
+  m_SizeDelta: {x: -622.738, y: -245.8266}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1702609622
 MonoBehaviour:
@@ -2925,7 +2926,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8148743783282164737, guid: 535a7da1f0ce82142aca29d60ded496d, type: 3}
+  m_Sprite: {fileID: 8566312739823202359, guid: b5b260dcc85799c4da1aae6df075291a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
