@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1b45f1ebceced4f4b85e65dce03f4a2b
+guid: 4c2812b3523d46e4abeb0718d21e87c4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6340088345030462526
-    second: determined1-removebg_0
+      213: 4346670280899278027
+    second: relieved or hopeful-Photoroom_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: determined1-removebg_0
+      name: relieved or hopeful-Photoroom_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 0
-        width: 492
-        height: 487
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e3c822232c48cf750800000000000000
-      internalID: 6340088345030462526
+      spriteID: bc4bfb04799725c30800000000000000
+      internalID: 4346670280899278027
       vertices: []
       indices: 
       edges: []
