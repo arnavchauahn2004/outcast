@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -78,13 +80,14 @@ public class GameManager : MonoBehaviour
         {
             dialogueText.text = ""; // No text shown before the choice
             ShowChoices(currentDialogue.choices);
-            UpdateNavigationButtons(); // Update buttons after choices are displayed
+            UpdateNavigationButtons();
             return;
         }
 
         // Set dialogue text and character visibility if no choices
         dialogueText.text = currentDialogue.text;
 
+        // Trigger camera shake and character visibility
         switch (currentDialogue.character)
         {
             case "goodsarpanch":
@@ -102,7 +105,7 @@ public class GameManager : MonoBehaviour
         }
 
         currentDialogueIndex++;
-        UpdateNavigationButtons(); // Update buttons after dialogue change
+        UpdateNavigationButtons();
     }
 
     public void ShowPreviousDialogue()
@@ -122,6 +125,7 @@ public class GameManager : MonoBehaviour
         // Set dialogue text and character visibility
         dialogueText.text = currentDialogue.text;
 
+        // Trigger camera shake and character visibility
         switch (currentDialogue.character)
         {
             case "goodsarpanch":
@@ -138,7 +142,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        UpdateNavigationButtons(); // Update buttons after dialogue change
+        UpdateNavigationButtons();
     }
 
     private void ShowChoices(string[] choices)
@@ -190,7 +194,7 @@ public class GameManager : MonoBehaviour
         }
 
         currentDialogueIndex++;
-        UpdateNavigationButtons(); // Update buttons after choice
+        UpdateNavigationButtons();
         ShowNextDialogue();
     }
 }
