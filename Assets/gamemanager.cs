@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance; // Singleton instance
+
     public Image goodsarpanch, badsarpanch, secretary, minister;
     public Slider corruptionMeter, moraleMeter, politicalStandingMeter;
     public TextMeshProUGUI dialogueText;
-    public GameObject choicePanel;
+    public GameObject choicePanel, subChoicePanel;
     public Button[] choiceButtons;
 
-    public Button prevButton; // Button to go to the previous dialogue
-    public Button nextButton; // Button to go to the next dialogue manually
+    public Button goodSarpanchButton, badSarpanchButton;
+    public Button prevButton, nextButton;
 
     private int currentDialogueIndex = 0;
-    private int ministerChoice = -1; // -1 means no choice yet
+    private Coroutine typingCoroutine; // Store reference for typing coroutine
+
+    // Persistent meter values
+    public float corruptionMeterValue = 0f;
+    public float moraleMeterValue = 0f;
+    public float politicalStandingMeterValue = 0f;
+
+    private bool canGoBack = true; // Track whether backward navigation is allowed
 
     [System.Serializable]
     public struct Dialogue
@@ -25,42 +35,71 @@ public class GameManager : MonoBehaviour
         public string text;
         public bool hasChoices;
         public string[] choices;
+
+        public string goodChoiceDialogue;  // Response for Choice 0
+        public string moderateChoiceDialogue;  // Response for Choice 1
+        public string corruptChoiceDialogue;  // Response for Choice 2
+
+        public string goodChoiceCharacter;  // Speaker for Choice 0
+        public string moderateChoiceCharacter;  // Speaker for Choice 1
+        public string corruptChoiceCharacter;  // Speaker for Choice 2
+
+        public bool hasSubChoice;  // Check for nested sub-choice
     }
 
     public Dialogue[] dialogues;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);  // Persist across scenes
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
+        InitializeMeters();
+        SetupButtons();
+        ShowNextDialogue();
+    }
+
+    void InitializeMeters()
+    {
+        if (corruptionMeter != null) corruptionMeter.value = corruptionMeterValue;
+        if (moraleMeter != null) moraleMeter.value = moraleMeterValue;
+        if (politicalStandingMeter != null) politicalStandingMeter.value = politicalStandingMeterValue;
+    }
+
+    void SetupButtons()
+    {
         choicePanel.SetActive(false);
+        subChoicePanel.SetActive(false);
+
         prevButton.onClick.AddListener(ShowPreviousDialogue);
         nextButton.onClick.AddListener(ShowNextDialogue);
 
+        goodSarpanchButton.onClick.AddListener(() => StartCoroutine(HandleGoodSarpanchChoice()));
+        badSarpanchButton.onClick.AddListener(() => StartCoroutine(HandleBadSarpanchChoice()));
+
         UpdateNavigationButtons();
-        ShowNextDialogue(); // Start with the first dialogue
     }
 
     void Update()
     {
-        // Right-click for previous dialogue
-        if (Input.GetMouseButtonDown(1)) // Right mouse button (index 1)
-        {
-            ShowPreviousDialogue();
-        }
-
-        // Left-click for next dialogue
-        if (Input.GetMouseButtonDown(0)) // Left mouse button (index 0)
-        {
-            ShowNextDialogue();
-        }
+        if (Input.GetKeyDown(KeyCode.RightArrow)) ShowNextDialogue();
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) ShowPreviousDialogue();
     }
 
     void UpdateNavigationButtons()
     {
-        // Disable previous button if on the first dialogue
-        prevButton.interactable = currentDialogueIndex > 0;
-
-        // Disable next button if on the last dialogue and no choices are active
-        nextButton.interactable = currentDialogueIndex < dialogues.Length - 1 && !choicePanel.activeSelf;
+        prevButton.interactable = currentDialogueIndex > 0 && canGoBack && !choicePanel.activeSelf;
+        nextButton.interactable = !choicePanel.activeSelf;
     }
 
     public void ShowNextDialogue()
@@ -68,87 +107,63 @@ public class GameManager : MonoBehaviour
         if (currentDialogueIndex >= dialogues.Length) return;
 
         Dialogue currentDialogue = dialogues[currentDialogueIndex];
+        ResetCharacterVisibility();
 
-        // Reset character visibility
-        goodsarpanch.enabled = false;
-        badsarpanch.enabled = false;
-        secretary.enabled = false;
-        minister.enabled = false;
-
-        // Handle choices
         if (currentDialogue.hasChoices)
         {
-            dialogueText.text = ""; // No text shown before the choice
+            dialogueText.text = "";
             ShowChoices(currentDialogue.choices);
             UpdateNavigationButtons();
             return;
         }
 
-        // Set dialogue text and character visibility if no choices
-        dialogueText.text = currentDialogue.text;
-
-        // Trigger camera shake and character visibility
-        switch (currentDialogue.character)
-        {
-            case "goodsarpanch":
-                goodsarpanch.enabled = true;
-                break;
-            case "badsarpanch":
-                badsarpanch.enabled = true;
-                break;
-            case "secretary":
-                secretary.enabled = true;
-                break;
-            case "minister":
-                minister.enabled = true;
-                break;
-        }
+        DisplayDialogue(currentDialogue.text);
+        ShowCharacter(currentDialogue.character);
 
         currentDialogueIndex++;
+        canGoBack = false;  // Disable backward navigation after moving to next dialogue
         UpdateNavigationButtons();
     }
 
     public void ShowPreviousDialogue()
     {
-        if (currentDialogueIndex <= 0) return;
+        if (!canGoBack || currentDialogueIndex <= 0 || choicePanel.activeSelf) return;
 
         currentDialogueIndex--;
-
         Dialogue currentDialogue = dialogues[currentDialogueIndex];
 
-        // Reset character visibility
-        goodsarpanch.enabled = false;
-        badsarpanch.enabled = false;
-        secretary.enabled = false;
-        minister.enabled = false;
-
-        // Set dialogue text and character visibility
-        dialogueText.text = currentDialogue.text;
-
-        // Trigger camera shake and character visibility
-        switch (currentDialogue.character)
-        {
-            case "goodsarpanch":
-                goodsarpanch.enabled = true;
-                break;
-            case "badsarpanch":
-                badsarpanch.enabled = true;
-                break;
-            case "secretary":
-                secretary.enabled = true;
-                break;
-            case "minister":
-                minister.enabled = true;
-                break;
-        }
-
+        ResetCharacterVisibility();
+        DisplayDialogue(currentDialogue.text);
+        ShowCharacter(currentDialogue.character);
         UpdateNavigationButtons();
+    }
+
+    private void DisplayDialogue(string text)
+    {
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);  // Stop previous typing effect if running
+        }
+        typingCoroutine = StartCoroutine(TypeText(text));
+    }
+
+    IEnumerator TypeText(string text)
+    {
+        dialogueText.text = "";  // Clear the previous text
+        foreach (char letter in text.ToCharArray())
+        {
+            dialogueText.text += letter;  // Add each character one by one
+            yield return new WaitForSeconds(0.05f);  // Typing speed
+        }
     }
 
     private void ShowChoices(string[] choices)
     {
         choicePanel.SetActive(true);
         minister.enabled = true;
+
+        prevButton.interactable = false;
+        nextButton.interactable = false;
 
         for (int i = 0; i < choices.Length; i++)
         {
@@ -159,7 +174,6 @@ public class GameManager : MonoBehaviour
             choiceButtons[i].onClick.AddListener(() => HandleChoice(index));
         }
 
-        // Deactivate unused buttons
         for (int i = choices.Length; i < choiceButtons.Length; i++)
         {
             choiceButtons[i].gameObject.SetActive(false);
@@ -168,33 +182,100 @@ public class GameManager : MonoBehaviour
 
     private void HandleChoice(int choiceIndex)
     {
-        ministerChoice = choiceIndex; // Capture minister's choice
+        Dialogue currentDialogue = dialogues[currentDialogueIndex];
         choicePanel.SetActive(false);
+        canGoBack = false;  // Disable backward navigation after choice is made
+        nextButton.interactable = true;
 
-        // Display the selected choice as dialogue text
-        dialogueText.text = dialogues[currentDialogueIndex].choices[choiceIndex];
-
-        // Adjust sliders based on choice
         switch (choiceIndex)
         {
-            case 0: // Good choice
-                corruptionMeter.value = Mathf.Max(0, corruptionMeter.value - 8);
-                moraleMeter.value = Mathf.Min(100, moraleMeter.value + 8);
-                politicalStandingMeter.value = Mathf.Min(100, politicalStandingMeter.value + 3);
+            case 0:  // Good Choice
+                DisplayDialogue(currentDialogue.goodChoiceDialogue);
+                ShowCharacter(currentDialogue.goodChoiceCharacter);
+                UpdateSliders(-6, 6, 1);
                 break;
-            case 1: // Neutral choice
-                corruptionMeter.value = Mathf.Min(100, corruptionMeter.value + 3);
-                moraleMeter.value = Mathf.Max(0, moraleMeter.value - 2);
+            case 1:  // Moderate Choice
+                DisplayDialogue(currentDialogue.moderateChoiceDialogue);
+                ShowCharacter(currentDialogue.moderateChoiceCharacter);
+                if (currentDialogue.hasSubChoice)
+                {
+                    subChoicePanel.SetActive(true);
+                    return;
+                }
+                UpdateSliders(0, -5, 0);
                 break;
-            case 2: // Bad choice
-                corruptionMeter.value = Mathf.Min(100, corruptionMeter.value + 8);
-                moraleMeter.value = Mathf.Max(0, moraleMeter.value - 8);
-                politicalStandingMeter.value = Mathf.Max(0, politicalStandingMeter.value - 3);
+            case 2:  // Corrupt Choice
+                DisplayDialogue(currentDialogue.corruptChoiceDialogue);
+                ShowCharacter(currentDialogue.corruptChoiceCharacter);
+                UpdateSliders(6, -6, -2);
                 break;
         }
 
         currentDialogueIndex++;
         UpdateNavigationButtons();
         ShowNextDialogue();
+    }
+
+    private IEnumerator HandleGoodSarpanchChoice()
+    {
+        DisplayDialogue("You selected the Good Sarpanch.");
+        moraleMeter.value = Mathf.Clamp(moraleMeter.value + 5, 0, 100);
+        subChoicePanel.SetActive(false);
+        yield return new WaitForSeconds(2f);  // Wait for dialogue completion
+        SaveMeterValues();
+        SceneManager.LoadScene("Act2");
+    }
+
+    private IEnumerator HandleBadSarpanchChoice()
+    {
+        DisplayDialogue("You chose the Bad Sarpanch.");
+        corruptionMeter.value = Mathf.Clamp(corruptionMeter.value + 5, 0, 100);
+        politicalStandingMeter.value = Mathf.Clamp(politicalStandingMeter.value - 4, 0, 100);
+        subChoicePanel.SetActive(false);
+        yield return new WaitForSeconds(1.5f);  // Wait for dialogue completion
+    }
+
+    private void SaveMeterValues()
+    {
+        corruptionMeterValue = corruptionMeter.value;
+        moraleMeterValue = moraleMeter.value;
+        politicalStandingMeterValue = politicalStandingMeter.value;
+    }
+
+    private void UpdateSliders(int corruptionChange, int moraleChange, int politicalChange)
+    {
+        corruptionMeter.value = Mathf.Clamp(corruptionMeter.value + corruptionChange, 0, 100);
+        moraleMeter.value = Mathf.Clamp(moraleMeter.value + moraleChange, 0, 100);
+        politicalStandingMeter.value = Mathf.Clamp(politicalStandingMeter.value + politicalChange, 0, 100);
+    }
+
+    private void ResetCharacterVisibility()
+    {
+        goodsarpanch.enabled = false;
+        badsarpanch.enabled = false;
+        secretary.enabled = false;
+        minister.enabled = false;
+    }
+
+    private void ShowCharacter(string character)
+    {
+        switch (character)
+        {
+            case "goodsarpanch":
+                goodsarpanch.enabled = true;
+                break;
+            case "badsarpanch":
+                badsarpanch.enabled = true;
+                break;
+            case "secretary":
+                secretary.enabled = true;
+                break;
+            case "minister":
+                minister.enabled = true;
+                break;
+            default:
+                Debug.LogWarning($"Character not recognized: '{character}'");
+                break;
+        }
     }
 }
