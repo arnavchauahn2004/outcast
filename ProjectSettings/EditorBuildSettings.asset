@@ -12,8 +12,29 @@ EditorBuildSettings:
     path: Assets/Scenes/act1.unity
     guid: 23475a84c7544254ba7a0083bab1820c
   - enabled: 1
-    path: Assets/Scenes/act2.unity
+    path: Assets/Scenes/Act2.unity
     guid: ea5ededa3fd1fd04c866dc1a9c090c74
+  - enabled: 1
+    path: Assets/Scenes/cut scene act1.unity
+    guid: a59854b4b8bb13b4f86875af59e9f11c
+  - enabled: 1
+    path: Assets/Scenes/sliders.unity
+    guid: 30413bc48e1fd89429a7bf2fc586ab8b
+  - enabled: 1
+    path: Assets/Scenes/secretary current affairs.unity
+    guid: 3c0a1dbca4c0a4d4991aa8eee743f253
+  - enabled: 1
+    path: Assets/Scenes/Real Act2.unity
+    guid: 8aa56e0cfb3cb80489f049b67c505def
+  - enabled: 1
+    path: Assets/Scenes/informer evid.unity
+    guid: 165e6377e0d16ec4d96683b5695f329a
+  - enabled: 1
+    path: Assets/Scenes/Protest.unity
+    guid: f1af24acadd7c484b82498ed9e906af7
+  - enabled: 1
+    path: Assets/Scenes/commisioner scene.unity
+    guid: 1000c2ae47947e642aa894360593f98a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   m_UseUCBPForAssetBundles: 0
